@@ -8,12 +8,23 @@ import FormControl from '@material-ui/core/FormControl';
 import { Button } from '@material-ui/core';
 import Select from '@material-ui/core/Select';
 import Snackbar from '@material-ui/core/Snackbar';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import cloneDeep from 'lodash/cloneDeep';
+import { withStyles } from '@material-ui/core/styles';
 
 import {
     SEARCH_BY_NAME,
     SEARCH_BY_PETSITTER_USERNAME,
     GET_PETS
 } from '../../config/path';
+import PetRegiteration from '../PetRegisteration';
+
+const styles = {
+    paper: {
+        width: '-webkit-fill-available'
+    }
+};
 
 class PetSitterRegisteration extends Component {
 
@@ -21,7 +32,9 @@ class PetSitterRegisteration extends Component {
         super(props);
         this.state = {
             filter: '',
-            pets: []
+            pets: [],
+            editDialog: false,
+            petToEdit: {}
         };
     }
 
@@ -88,7 +101,6 @@ class PetSitterRegisteration extends Component {
             console.log(data);
             var tmpArray = [...data];
             this.setState({ pets: tmpArray })
-            console.log('Pets: ' + this.state.pets);
         }).catch(err => {
             console.log("Error Reading data " + err);
         }).finally(() => {
@@ -96,9 +108,24 @@ class PetSitterRegisteration extends Component {
         });
     }
 
+    editPet = (pet, id) => {
+
+        const pets = cloneDeep(pet);
+        this.setState({
+            editDialog: true,
+            petToEdit: pets
+        })
+        console.log(JSON.stringify(pets))
+    }
+
+    onDialogClose = () => {
+        this.setState({ editDialog: false });
+        this.showAll();
+    }
 
     render() {
         var { pets } = this.state;
+        const { classes } = this.props;
         return (
             <div>
                 <div class="container">
@@ -118,7 +145,7 @@ class PetSitterRegisteration extends Component {
                         </div>
                         <br />
                         <div class="row justify-content-around">
-                        <div class="col-4">
+                            <div class="col-4">
                                 <Button
                                     variant="contained" color="primary"
                                     onClick={this.showAll}>
@@ -141,13 +168,13 @@ class PetSitterRegisteration extends Component {
                                     Search by PetsitterUserName
   </Button>
                             </div>
-                       
+
 
                         </div>
                     </form>
 
                 </div>
-                <br/>
+                <br />
                 <div class="row">
                     <table>
                         <thead>
@@ -164,7 +191,12 @@ class PetSitterRegisteration extends Component {
                                         <td>{pet.name}</td>
                                         <td>{pet.type}</td>
                                         <td>
-                                            <button className="button muted-button">Edit</button>
+                                            <Button
+                                                variant="contained" color="primary"
+                                                onClick={pet, key => this.editPet(pet, key)}>
+                                                EDIT
+</Button>
+
                                             <button className="button muted-button">Delete</button>
                                         </td>
                                     </tr>
@@ -177,9 +209,21 @@ class PetSitterRegisteration extends Component {
                         </tbody>
                     </table>
                 </div>
+                <div>
+                    <Dialog
+                        classes={{
+                            paper: classes.paper,
+                        }}
+                        aria-labelledby="simple-dialog-title" open={this.state.editDialog} onClose={this.onDialogClose} style={{ width: '-webkit-fill-available' }}>
+                        <PetRegiteration
+                            edit={true}
+                            pet={this.state.petToEdit}
+                        ></PetRegiteration>
+                    </Dialog>
+                </div>
             </div>
         );
     }
 }
 
-export default PetSitterRegisteration;
+export default withStyles(styles)(PetSitterRegisteration);

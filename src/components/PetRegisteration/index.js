@@ -20,6 +20,9 @@ class PetRegiteration extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      edit: props.edit,
+      pet: props.pet,
+      petId: '',
       name: '',
       age: '',
       description: '',
@@ -37,6 +40,18 @@ class PetRegiteration extends Component {
   }
   componentDidMount() {
     this.getAnimalTypes();
+
+    if(this.state.edit){
+      this.setState({
+        petId: this.state.pet.id,
+        name: this.state.pet.name,
+        age: this.state.pet.age,
+        description: this.state.pet.description,
+        type : this.state.pet.type,
+        genus: this.state.pet.genus,
+        petSitterUsername: this.state.pet.petSitterUsername
+      });
+    }
   }
 
   handleChange = (name, e) => {
@@ -63,7 +78,7 @@ class PetRegiteration extends Component {
   }
 
   saveAnimal = () => {
-    var { name, type, genus, age, description, petSitterUsername } = this.state;
+    var { petId,name, type, genus, age, description, petSitterUsername } = this.state;
 
     fetch(SAVE_ANIMAL, {
       method: 'POST',
@@ -71,6 +86,7 @@ class PetRegiteration extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        id: petId,
         name: name,
         type: type,
         genus: genus,
@@ -100,7 +116,7 @@ class PetRegiteration extends Component {
 
     return (
       <div class="container">
-        <h2>Register A Pet</h2>
+        <h2>{this.state.edit ? 'Edit the Pet' : 'Register A Pet'}</h2>
         <form
           //className={this.props.classes.container} 
           noValidate autoComplete="off">
