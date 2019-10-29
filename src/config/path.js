@@ -9,3 +9,4 @@ export const SAVE_PETSITTER = SERVER_BASE_URL + '/savepetsitter';
 export const SEARCH_BY_NAME = SERVER_BASE_URL + '/searchbyanimalname';
 export const SEARCH_BY_PETSITTER_USERNAME = SERVER_BASE_URL+ '/searchbypetsitterusername';
 export const GET_PETS = SERVER_BASE_URL + '/animals';
+export const DELETE_PET = SERVER_BASE_URL + '/deleteanimal';

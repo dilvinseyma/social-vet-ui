@@ -16,7 +16,8 @@ import { withStyles } from '@material-ui/core/styles';
 import {
     SEARCH_BY_NAME,
     SEARCH_BY_PETSITTER_USERNAME,
-    GET_PETS
+    GET_PETS,
+    DELETE_PET
 } from '../../config/path';
 import PetRegiteration from '../PetRegisteration';
 
@@ -34,7 +35,8 @@ class PetSitterRegisteration extends Component {
             filter: '',
             pets: [],
             editDialog: false,
-            petToEdit: {}
+            petToEdit: {},
+            deleteDialog: false
         };
     }
 
@@ -123,6 +125,28 @@ class PetSitterRegisteration extends Component {
         this.showAll();
     }
 
+    deletePet = (key) => {
+        fetch(DELETE_PET, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: key
+            })
+        }).then(response => {
+            console.log(response);
+            return response.json();
+        }).then(data => {
+            console.log(data);
+            this.showAll();
+        }).catch(err => {
+            console.log("Error Reading data " + err);
+        }).finally(() => {
+            this.showAll();
+        });
+    }
+
     render() {
         var { pets } = this.state;
         const { classes } = this.props;
@@ -196,8 +220,11 @@ class PetSitterRegisteration extends Component {
                                                 onClick={pet, key => this.editPet(pet, key)}>
                                                 EDIT
 </Button>
-
-                                            <button className="button muted-button">Delete</button>
+<Button
+                                                variant="contained" color="secondary"
+                                                onClick={() => this.deletePet(pet.id)}>
+                                                DELETE
+</Button>
                                         </td>
                                     </tr>
                                 ))
