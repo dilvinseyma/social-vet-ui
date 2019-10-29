@@ -12,6 +12,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import cloneDeep from 'lodash/cloneDeep';
 import { withStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 import {
     SEARCH_BY_NAME,
@@ -152,7 +158,8 @@ class PetSitterRegisteration extends Component {
         const { classes } = this.props;
         return (
             <div>
-                <div class="container">
+                <div class="container" style = {{backgroundColor: "white",
+            padding: '20px'}}> 
                     <h2>Search for Pet</h2>
                     <form
                         noValidate autoComplete="on">
@@ -199,23 +206,31 @@ class PetSitterRegisteration extends Component {
 
                 </div>
                 <br />
-                <div class="row">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Username</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {pets.length > 0 ? (
-                                pets.map(pet => (
-                                    <tr key={pet.id}>
-                                        <td>{pet.name}</td>
-                                        <td>{pet.type}</td>
-                                        <td>
-                                            <Button
+
+                <Paper className={classes.root}>
+      <Table className={classes.table} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell align="right">Age</TableCell>
+            <TableCell align="right">Description</TableCell>
+            <TableCell align="right">PetSitter Name</TableCell>
+            <TableCell align="right">Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+        {pets.length > 0 ? (
+            pets.map(pet => (
+            <TableRow key={pet.id}>
+              <TableCell component="th" scope="row">
+                {pet.name}
+              </TableCell>
+              <TableCell align="right">{pet.age}</TableCell>
+              <TableCell align="right">{pet.description}</TableCell>
+              <TableCell align="right">{pet.petSitterUsername}</TableCell>
+              <TableCell align="right">
+
+              <Button
                                                 variant="contained" color="primary"
                                                 onClick={pet, key => this.editPet(pet, key)}>
                                                 EDIT
@@ -225,17 +240,18 @@ class PetSitterRegisteration extends Component {
                                                 onClick={() => this.deletePet(pet.id)}>
                                                 DELETE
 </Button>
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
-                                    <tr>
-                                        <td colSpan={3}>No data</td>
-                                    </tr>
-                                )}
-                        </tbody>
-                    </table>
-                </div>
+              </TableCell>
+            </TableRow>
+            ))) : (   <TableRow>
+                <TableCell component="th" scope="row">
+                  No pet
+                </TableCell>
+                </TableRow>)
+         
+        }
+               </TableBody>
+               </Table>
+             </Paper>
                 <div>
                     <Dialog
                         classes={{

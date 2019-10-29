@@ -8,7 +8,6 @@ import FormControl from '@material-ui/core/FormControl';
 import { Button } from '@material-ui/core';
 import Select from '@material-ui/core/Select';
 import Snackbar from '@material-ui/core/Snackbar';
-
 import {
     SAVE_PETSITTER
   } from '../../config/path';
@@ -68,7 +67,7 @@ class PetSitterRegisteration extends Component {
     render() {
         
     return (
-        <div class="container">
+        <div class="container" style = {{backgroundColor: "white",padding: '20px'}}>
           <h2>Register A PetSitter</h2>
           <form
             noValidate autoComplete="on">

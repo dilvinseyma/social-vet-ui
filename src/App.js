@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import PetRegisteration from './components/PetRegisteration';
 import PetSitterRegisteration from './components/PetSitterRegisteration';
 import PetSearch from './components/PetSearch';
+import Home from './components/Home';
 
 
 
@@ -39,9 +40,11 @@ class App extends Component {
               <Route exact path='/petregisteration' component={ PetRegisteration } />
               <Route exact path='/petsitterregisteration' component={ PetSitterRegisteration } />
               <Route exact path='/search' component={ PetSearch } />
+              <Route exact path='/' component={ Home } />
           </Switch>
         </div>
       </Router>
+
     );
   }
 }

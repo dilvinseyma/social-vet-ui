@@ -115,7 +115,7 @@ class PetRegiteration extends Component {
 
 
     return (
-      <div class="container">
+      <div class="container" style = {{backgroundColor: "white",padding: '20px'}}>
         <h2>{this.state.edit ? 'Edit the Pet' : 'Register A Pet'}</h2>
         <form
           //className={this.props.classes.container} 
